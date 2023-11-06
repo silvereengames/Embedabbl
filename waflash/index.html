@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Embedabbl - ruffle</title>
+		<title>Embedabbl - waflash</title>
 		<link rel="shortcut icon" href="../icon.png" type="image/x-icon">
 	</head>
 	<style>
@@ -18,32 +18,22 @@
 		}
 	</style>
 	<body>
-		<div class="game" id='ruffle'></div>
+		<div id="waflashContainer">
+			<canvas class="waflashCanvas" id="canvas" tabindex="1"></canvas>
+			<div id="waflashStatus" style="display: none;">Playing...</div>
+			<script src="https://cdn.jsdelivr.net/gh/nate-games/waflash@main/main.js"  rossorigin="anonymous" type="module"></script>
+		</div>
 	</body>
 	<script src="../loading.js"></script>
-	<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+	<link href="https://cdn.jsdelivr.net/gh/nate-games/waflash@main/style.css" rel="stylesheet" type="text/css">
 	<script>
 		//Embedabbl
 		enableLoadingScreen(document.body);
 		var executableUrl = getUrlParameter("swf", true);
 		if (!executableUrl) displayError(`Error: SWF URL Not Valid`, `Given SWF ${executableUrl ? executableUrl : ""} not valid.`); //Invalid Url
-		brokenUrlCheck(executableUrl, () => {
-			//Core Logic
-			var swfobject = {};
-			swfobject.embedSWF = function(url, cont) {
-				var ruffle = window.RufflePlayer.newest(),
-					player = Object.assign(document.getElementById(cont).appendChild(ruffle.createPlayer()), {
-						style: 'width: 100vw; height: 100vh;',
-					});
-				player.config = {
-					"letterbox": "on"
-				};
-				player.load({
-					url: url
-				});
-			}
-			disableLoadingScreen();
-			swfobject.embedSWF(executableUrl, 'ruffle');
-		});
+		var gameConfig = {
+			swfUrl: executableUrl
+		}
+		disableLoadingScreen();
 	</script>
 </html>
